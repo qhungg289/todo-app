@@ -1,4 +1,4 @@
-export default function todoGenerator(title, description, dueDate, priority) {
+export default function todoGenerator(title, description, dueDate, priority, label) {
     let note;
 
     function getNote() {
@@ -9,5 +9,5 @@ export default function todoGenerator(title, description, dueDate, priority) {
         note = _note;
     }
 
-    return { title, description, dueDate, priority, getNote, setNote };
+    return { title, description, dueDate, priority, label, getNote, setNote };
 }
