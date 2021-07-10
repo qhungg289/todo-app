@@ -7,6 +7,7 @@
 		<title>Todo</title>
 	</head>
 	<body>
+		<nav></nav>
 		<div id="todo-form">
 			<form>
 				<label for="title">Title</label><br />
@@ -15,11 +16,16 @@
 				<input type="text" name="description" id="description" /><br />
 				<label for="due-date">Due date</label><br />
 				<input type="date" name="due-date" id="due-date" /><br />
+
 				<label for="priority">Priority</label><br />
 				<select name="priority" id="priority">
 					<option value="low">Low</option>
 					<option value="medium">Medium</option>
 					<option value="high">High</option></select
+				><br />
+
+				<label for="label">Label</label><br />
+				<select name="label" id="label"></select
 				><br />
 				<input type="button" id="create" value="Create" />
 			</form>
