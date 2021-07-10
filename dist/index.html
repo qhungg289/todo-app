@@ -4,9 +4,34 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
+		<title>Todo</title>
 	</head>
 	<body>
+		<div id="todo-form">
+			<form>
+				<label for="title">Title</label><br />
+				<input type="text" name="title" id="title" /><br />
+				<label for="description">Description</label><br />
+				<input type="text" name="description" id="description" /><br />
+				<label for="due-date">Due date</label><br />
+				<input type="date" name="due-date" id="due-date" /><br />
+				<label for="priority">Priority</label><br />
+				<select name="priority" id="priority">
+					<option value="low">Low</option>
+					<option value="medium">Medium</option>
+					<option value="high">High</option></select
+				><br />
+				<input type="button" id="create" value="Create" />
+			</form>
+			<br />
+			<form>
+				<label for="label-field">Label</label><br />
+				<input type="text" name="label-field" id="label-field" /><br />
+				<input type="button" id="new-label" value="New label" />
+			</form>
+		</div>
+		<div id="todo-list"></div>
+		<div id="completed-list"></div>
 		<script src="./main.js"></script>
 	</body>
 </html>
