@@ -1,5 +1,5 @@
 import "./style.css"
-import { todosCurrent, todosCompleted, todoMaster, createNewTodo, createNewLabel } from "./app";
+import { todosCurrent, todosCompleted, createNewTodo, createNewLabel, todoUserDefined } from "./app";
 import {
     formButton,
     formTitle,
@@ -10,8 +10,11 @@ import {
     newLabelButton,
     appendTodosToList,
     resetFormValue,
-    setIndexCheckBoxesOnMainList
+    setIndexCheckBoxesOnMainList,
+    addValuesToLabelOption
 } from "./DOM";
+
+addValuesToLabelOption(todoUserDefined);
 
 formButton.onclick = () => {
     createNewTodo(
@@ -28,4 +31,6 @@ formButton.onclick = () => {
 
 newLabelButton.onclick = () => {
     createNewLabel(newLabelText.value);
+    addValuesToLabelOption(todoUserDefined);
+    newLabelText.value = null;
 }
