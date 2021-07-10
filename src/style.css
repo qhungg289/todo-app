@@ -4,11 +4,13 @@ body {
 }
 
 #todo-form,
-#todo-list {
-	width: 50%;
+#todo-list,
+#completed-list {
+	width: 33%;
 }
 
-#todo-form {
+#todo-form,
+#todo-list {
 	border-right: 3px solid black;
 }
 
