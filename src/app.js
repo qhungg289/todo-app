@@ -6,10 +6,13 @@ let todoUserDefined = [todosCurrent];
 
 todosCurrent.name = "Default";
 
-// Check for which label is chosen and put the new item into the correct array!!!
-function createNewTodo(list, title, description, dueDate, priority) {
-    let todo = todoGenerator(title, description, dueDate, priority);
-    list.push(todo);
+function createNewTodo(title, description, dueDate, priority, label) {
+    todoUserDefined.forEach(list => {
+        if (label === list.name) {
+            let todo = todoGenerator(title, description, dueDate, priority, label);
+            list.push(todo);
+        }
+    });
 }
 
 function setToDoAsCompleleted(todoIndex, currentList, completedList) {
@@ -17,8 +20,6 @@ function setToDoAsCompleleted(todoIndex, currentList, completedList) {
         if (i == todoIndex) {
             let tempList = currentList.splice(todoIndex, 1);
             completedList.push(tempList[0]);
-            console.log(completedList);
-            console.log(currentList);
         }
     }
 }
@@ -26,8 +27,8 @@ function setToDoAsCompleleted(todoIndex, currentList, completedList) {
 function createNewLabel(labelName) {
     window[labelName] = [];
     window[labelName].name = labelName;
-    console.log(todoUserDefined);
     todoUserDefined.push(window[labelName]);
+    console.log(todoUserDefined);
 }
 
 export {

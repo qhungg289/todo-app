@@ -1,10 +1,11 @@
 import {
     setToDoAsCompleleted,
     todosCurrent,
-    todosCompleted,
-    todoUserDefined
+    todosCompleted
 } from "./app"
 
+let todoForm = document.getElementById("todo-form");
+let labelForm = document.getElementById("label-form");
 let formTitle = document.getElementById("title");
 let formDesc = document.getElementById("description");
 let formDate = document.getElementById("due-date");
@@ -15,6 +16,25 @@ let newLabelText = document.getElementById("label-field");
 let newLabelButton = document.getElementById("new-label");
 let list = document.getElementById("todo-list");
 let completedList = document.getElementById("completed-list");
+let showTodoFormButton = document.getElementById("show-todo-form");
+let showLabelFormButton = document.getElementById("show-label-field");
+let labelNavigation = document.getElementById("label-navigation");
+
+showTodoFormButton.onclick = () => {
+    if (todoForm.style.display == "block") {
+        todoForm.style.display = "none";
+    } else {
+        todoForm.style.display = "block";
+    }
+}
+
+showLabelFormButton.onclick = () => {
+    if (labelForm.style.display == "block") {
+        labelForm.style.display = "none";
+    } else {
+        labelForm.style.display = "block";
+    }
+}
 
 function appendTodosToList(title, description) {
     let todoCheckbox = document.createElement("input");
@@ -24,23 +44,23 @@ function appendTodosToList(title, description) {
 
     todoCheckbox.onclick = () => {
         if (todoCheckbox.checked) {
-            console.log(`${todoCheckbox.dataset.index} checked`);
-            setToDoAsCompleleted(todoCheckbox.dataset.index, todosCurrent, todosCompleted);
-            todoCheckbox.classList.remove("checkboxes-main");
-            todoContainer.remove();
-            setIndexCheckBoxesOnMainList();
-            showCompletedTodos(todosCompleted);
+            // setToDoAsCompleleted(todoCheckbox.dataset.index, todosCurrent, todosCompleted);
+            // todoCheckbox.classList.remove("checkboxes-main");
+            // todoContainer.remove();
+            // setIndexCheckBoxesOnMainList();
+            // showCompletedTodos(todosCompleted);
+            todoLabel.classList.add("completed");
         }
-        // else {
-        //     console.log(`${todoCheckbox.dataset.index} unchecked`);
-        //     todoLabel.classList.remove("completed");
-        // }
+        else {
+            console.log(`${todoCheckbox.dataset.index} unchecked`);
+            todoLabel.classList.remove("completed");
+        }
     };
 
     let todoLabel = document.createElement("label");
     todoLabel.appendChild(document.createTextNode(title));
 
-    let todoContainer = document.createElement("div");
+    let todoContainer = document.createElement("li");
     todoContainer.classList.add("todo-items");
 
     todoContainer.appendChild(todoCheckbox);
@@ -62,12 +82,21 @@ function showCompletedTodos(list) {
         todoLabel.appendChild(document.createTextNode(todo.title));
         todoLabel.classList.add("completed");
 
-        let todoContainer = document.createElement("div");
+        let todoContainer = document.createElement("li");
         todoContainer.classList.add("completed-todo-items");
 
         todoContainer.appendChild(todoCheckbox);
         todoContainer.appendChild(todoLabel);
         completedList.appendChild(todoContainer);
+    })
+}
+
+function showLinkInNav(list) {
+    labelNavigation.innerHTML = "";
+    list.forEach(item => {
+        let li = document.createElement("li");
+        li.innerHTML = item.name;
+        labelNavigation.appendChild(li);
     })
 }
 
@@ -82,13 +111,6 @@ function addValuesToLabelOption(userDefine) {
     })
 }
 
-function resetFormValue() {
-    formTitle.value = null;
-    formDesc.value = null;
-    formDate.value = null;
-    formPriority.value = "low";
-}
-
 function setIndexCheckBoxesOnMainList() {
     let checkboxes = document.getElementsByClassName("checkboxes-main");
     for (let i = 0; i < checkboxes.length; i++) {
@@ -96,11 +118,19 @@ function setIndexCheckBoxesOnMainList() {
     }
 }
 
+function resetFormValue() {
+    formTitle.value = null;
+    formDesc.value = null;
+    formDate.value = null;
+    formPriority.value = "low";
+}
+
 export {
     formTitle,
     formDesc,
     formDate,
     formPriority,
+    formLabel,
     formButton,
     newLabelText,
     newLabelButton,
@@ -108,5 +138,6 @@ export {
     showCompletedTodos,
     addValuesToLabelOption,
     resetFormValue,
-    setIndexCheckBoxesOnMainList
+    setIndexCheckBoxesOnMainList,
+    showLinkInNav
 };

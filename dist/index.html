@@ -7,7 +7,8 @@
 		<title>Todo</title>
 	</head>
 	<body>
-		<nav></nav>
+		<ul id="label-navigation"></ul>
+		<button id="show-todo-form">New todo</button>
 		<div id="todo-form">
 			<form>
 				<label for="title">Title</label><br />
@@ -19,7 +20,7 @@
 
 				<label for="priority">Priority</label><br />
 				<select name="priority" id="priority">
-					<option value="low">Low</option>
+					<option value="normal">Normal</option>
 					<option value="medium">Medium</option>
 					<option value="high">High</option></select
 				><br />
@@ -29,15 +30,19 @@
 				><br />
 				<input type="button" id="create" value="Create" />
 			</form>
-			<br />
+		</div>
+
+		<button id="show-label-field">New label</button>
+		<div id="label-form">
 			<form>
 				<label for="label-field">Label</label><br />
 				<input type="text" name="label-field" id="label-field" /><br />
-				<input type="button" id="new-label" value="New label" />
+				<input type="button" id="new-label" value="Create" />
 			</form>
 		</div>
-		<div id="todo-list"></div>
-		<div id="completed-list"></div>
+
+		<ul id="todo-list"></ul>
+		<ul id="completed-list"></ul>
 		<script src="./main.js"></script>
 	</body>
 </html>
