@@ -4,45 +4,60 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script
+			src="https://kit.fontawesome.com/313ff853e5.js"
+			crossorigin="anonymous"
+		></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet"
+		/>
 		<title>Todo</title>
 	</head>
 	<body>
-		<ul id="label-navigation"></ul>
-		<button id="show-todo-form">New todo</button>
-		<div id="todo-form">
-			<form>
-				<label for="title">Title</label><br />
-				<input type="text" name="title" id="title" /><br />
-				<label for="description">Description</label><br />
-				<input type="text" name="description" id="description" /><br />
-				<label for="due-date">Due date</label><br />
-				<input type="date" name="due-date" id="due-date" /><br />
-
-				<label for="priority">Priority</label><br />
-				<select name="priority" id="priority">
-					<option value="normal">Normal</option>
-					<option value="medium">Medium</option>
-					<option value="high">High</option></select
-				><br />
-
-				<label for="label">Label</label><br />
-				<select name="label" id="label"></select
-				><br />
-				<input type="button" id="create" value="Create" />
-			</form>
+		<h1>Todo</h1>
+		<div class="main-control">
+			<button id="show-control"><i class="fas fa-pen"></i></button>
+			<div id="new-note">
+				<p id="new-note-btn-label">New todo</p>
+				<button id="new-note-btn"><i class="fas fa-check-square"></i></button>
+			</div>
+			<div id="new-tag">
+				<p id="new-tag-btn-label">New tag</p>
+				<button id="new-tag-btn"><i class="fas fa-tag"></i></button>
+			</div>
 		</div>
 
-		<button id="show-label-field">New label</button>
-		<div id="label-form">
-			<form>
-				<label for="label-field">Label</label><br />
-				<input type="text" name="label-field" id="label-field" /><br />
-				<input type="button" id="new-label" value="Create" />
-			</form>
+		<div class="modal" id="new-note-modal">
+			<div class="modal-header">
+				<div class="modal-title">Create new todo</div>
+				<button class="close-btn">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<label for="todo-tile">Title</label><br />
+					<input type="text" name="todo-title" id="todo-title" /><br />
+					<label for="todo-desc">Description</label><br />
+					<input type="text" name="todo-desc" id="todo-desc" /><br />
+					<label for="todo-due-date">Due date</label><br />
+					<input type="date" name="todo-due-date" id="todo-due-date" /><br />
+					<label for="todo-priority">Priority</label><br />
+					<select name="todo-priority" id="todo-priority">
+						<option value="normal">Normal</option>
+						<option value="medium">Medium</option>
+						<option value="high">High</option></select
+					><br />
+					<label for="todo-tag">Tag</label><br />
+					<select name="todo-tag" id="todo-tag"></select
+					><br />
+					<input type="button" value="Create" />
+				</form>
+			</div>
 		</div>
-
-		<ul id="todo-list"></ul>
-		<ul id="completed-list"></ul>
+		<div id="overlay"></div>
+		<div id="load-screen"></div>
 		<script src="./main.js"></script>
 	</body>
 </html>
