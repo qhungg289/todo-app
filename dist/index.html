@@ -17,12 +17,15 @@
 		<title>Todo</title>
 	</head>
 	<body>
-		<h1>Todo</h1>
+		<div id="branding">
+			<p>Todo</p>
+		</div>
+
 		<div class="main-control">
-			<button id="show-control"><i class="fas fa-pen"></i></button>
-			<div id="new-note">
-				<p id="new-note-btn-label">New todo</p>
-				<button id="new-note-btn"><i class="fas fa-check-square"></i></button>
+			<button id="show-control"><i class="fas fa-plus"></i></button>
+			<div id="new-todo">
+				<p id="new-todo-btn-label">New todo</p>
+				<button id="new-todo-btn"><i class="fas fa-check-square"></i></button>
 			</div>
 			<div id="new-tag">
 				<p id="new-tag-btn-label">New tag</p>
@@ -30,30 +33,57 @@
 			</div>
 		</div>
 
+		<div id="todo-main-container"></div>
+
 		<div class="modal" id="new-note-modal">
 			<div class="modal-header">
 				<div class="modal-title">Create new todo</div>
-				<button class="close-btn">&times;</button>
 			</div>
 			<div class="modal-body">
-				<form>
-					<label for="todo-tile">Title</label><br />
-					<input type="text" name="todo-title" id="todo-title" /><br />
-					<label for="todo-desc">Description</label><br />
-					<input type="text" name="todo-desc" id="todo-desc" /><br />
-					<label for="todo-due-date">Due date</label><br />
-					<input type="date" name="todo-due-date" id="todo-due-date" /><br />
-					<label for="todo-priority">Priority</label><br />
+				<div class="form">
+					<label for="todo-title">Title</label>
+					<input type="text" name="todo-title" id="todo-title" />
+					<label for="todo-desc">Description</label>
+					<input type="text" name="todo-desc" id="todo-desc" />
+					<label for="todo-due-date">Due date</label>
+					<input type="date" name="todo-due-date" id="todo-due-date" />
+					<label for="todo-priority">Priority</label>
 					<select name="todo-priority" id="todo-priority">
 						<option value="normal">Normal</option>
 						<option value="medium">Medium</option>
-						<option value="high">High</option></select
-					><br />
-					<label for="todo-tag">Tag</label><br />
-					<select name="todo-tag" id="todo-tag"></select
-					><br />
-					<input type="button" value="Create" />
-				</form>
+						<option value="high">High</option>
+					</select>
+					<label for="todo-tag">Tag</label>
+					<select name="todo-tag" id="todo-tag"></select>
+					<div class="input-btn-container">
+						<input
+							type="button"
+							value="CANCEL"
+							id="close-create-todo-modal-btn"
+						/>
+						<input type="button" value="CREATE" id="create-todo-btn" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="new-tag-modal">
+			<div class="modal-header">
+				<div class="modal-title">Create new tag</div>
+			</div>
+			<div class="modal-body">
+				<div class="form">
+					<label for="new-tag-field">Name</label>
+					<input type="text" name="new-tag-field" id="new-tag-field" />
+					<div class="input-btn-container">
+						<input
+							type="button"
+							value="CANCEL"
+							id="close-create-tag-modal-btn"
+						/>
+						<input type="button" value="CREATE" id="create-tag-btn" />
+					</div>
+				</div>
 			</div>
 		</div>
 		<div id="overlay"></div>
