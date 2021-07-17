@@ -1,52 +1,112 @@
-let showControlBtn = document.getElementById("show-control");
-let newNoteBtnLabel = document.getElementById("new-note-btn-label");
-let newTagBtnLabel = document.getElementById("new-tag-btn-label");
-let newNote = document.getElementById("new-note");
-let newTag = document.getElementById("new-tag");
-let newNoteBtn = document.getElementById("new-note-btn");
-let newTagBtn = document.getElementById("new-tag-btn");
-let overlay = document.getElementById("overlay");
-let closeModalBtn = document.getElementsByClassName("close-btn")[0];
+// Control elements
+const showControlBtn = document.getElementById("show-control");
+const newTodoBtnLabel = document.getElementById("new-todo-btn-label");
+const newTagBtnLabel = document.getElementById("new-tag-btn-label");
+const newTodo = document.getElementById("new-todo");
+const newTag = document.getElementById("new-tag");
+const overlay = document.getElementById("overlay");
 
-showControlBtn.onfocus = () => {
-    newNote.classList.add("new-note-move-up");
-    newTag.classList.add("new-tag-move-up");
-    newNoteBtnLabel.style.opacity = 1;
-    newTagBtnLabel.style.opacity = 1;
-}
+// Body
+const todoBodyContainer = document.getElementById("todo-main-container");
 
-showControlBtn.onblur = () => {
-    newNote.classList.remove("new-note-move-up");
-    newTag.classList.remove("new-tag-move-up");
-    newNoteBtnLabel.style.opacity = 0;
-    newTagBtnLabel.style.opacity = 0;
+// Form elements
+const todoTitleField = document.getElementById("todo-title");
+const todoDescField = document.getElementById("todo-desc");
+const todoDueDateField = document.getElementById("todo-due-date");
+const todoPriorityField = document.getElementById("todo-priority");
+const todoTagField = document.getElementById("todo-tag");
+const closeTodoModalBtn = document.getElementById("close-create-todo-modal-btn");
+const createTodoBtn = document.getElementById("create-todo-btn");
+const tagNameField = document.getElementById("new-tag-field");
+const closeTagModalBtn = document.getElementById("close-create-tag-modal-btn");
+const createTagBtn = document.getElementById("create-tag-btn");
+
+showControlBtn.onclick = () => {
+    if (newTodo.classList.contains("new-note-move-up") && newTag.classList.contains("new-tag-move-up")) {
+        hideControl();
+    } else {
+        showControl();
+    }
 }
 
 overlay.onclick = () => {
-    let modals = document.querySelectorAll(".modal.active");
+    const modals = document.querySelectorAll(".modal.active");
     modals.forEach(modal => {
         closeModal(modal);
     })
 }
 
-newNoteBtn.onclick = () => {
-    let modal = document.getElementById("new-note-modal");
+newTodo.onclick = () => {
+    const modal = document.getElementById("new-note-modal");
     openModal(modal);
+    console.log("todo clicked");
+    hideControl();
 }
 
-closeModalBtn.onclick = () => {
-    let modal = document.getElementById("new-note-modal");
+newTag.onclick = () => {
+    const modal = document.getElementById("new-tag-modal");
+    openModal(modal);
+    console.log("tag clicked");
+    hideControl();
+}
+
+closeTodoModalBtn.onclick = () => {
+    const modal = document.getElementById("new-note-modal");
+    closeModal(modal);
+}
+
+closeTagModalBtn.onclick = () => {
+    const modal = document.getElementById("new-tag-modal");
     closeModal(modal);
 }
 
 function openModal(modal) {
-    if (modal == null) return;
     modal.classList.add("active");
     overlay.classList.add("active");
 }
 
 function closeModal(modal) {
-    if (modal == null) return;
     modal.classList.remove("active");
     overlay.classList.remove("active");
 }
+
+function hideControl() {
+    newTodo.classList.remove("new-note-move-up");
+    newTag.classList.remove("new-tag-move-up");
+    newTodoBtnLabel.style.opacity = 0;
+    newTagBtnLabel.style.opacity = 0;
+}
+
+function showControl() {
+    newTodo.classList.add("new-note-move-up");
+    newTag.classList.add("new-tag-move-up");
+    newTodoBtnLabel.style.opacity = 1;
+    newTagBtnLabel.style.opacity = 1;
+}
+
+function renderTagsInBody(tagsList) {
+    todoBodyContainer.innerHTML = "";
+    tagsList.forEach(tag => {
+        const tagArea = document.createElement("div");
+        tagArea.classList.add("tag-area")
+        tagArea.innerHTML = tag.name;
+        todoBodyContainer.appendChild(tagArea);
+    });
+}
+
+function renderTagsInTodoModal(tagsList) {
+    todoTagField.innerHTML = "";
+    tagsList.forEach(tag => {
+        const tagOption = document.createElement("option");
+        tagOption.value = tag.name;
+        tagOption.innerHTML = tag.name;
+        todoTagField.appendChild(tagOption);
+    })
+}
+
+function renderTags(tagsList) {
+    renderTagsInBody(tagsList);
+    renderTagsInTodoModal(tagsList);
+}
+
+export { renderTags, createTagBtn, tagNameField, closeTagModalBtn };
