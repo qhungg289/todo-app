@@ -5,19 +5,52 @@
 
 body {
 	font-family: "Montserrat", sans-serif;
+	margin: 0;
 }
 
-h1 {
-	font-size: 4rem;
+#load-screen {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: white;
+	z-index: 50;
+	position: fixed;
+	animation: hide 3s forwards;
+	pointer-events: none;
 }
 
-#new-note,
+@keyframes hide {
+	to {
+		opacity: 0;
+	}
+}
+
+#branding {
+	background-color: red;
+	color: white;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 4rem;
+	padding: 0 1rem;
+}
+
+#branding p {
+	font-size: 1.4rem;
+	font-weight: 600;
+	line-height: 0;
+	margin: 0;
+}
+
+#new-todo,
 #new-tag,
 #show-control {
 	position: absolute;
+	cursor: default;
 }
 
-#new-note-btn,
+#new-todo-btn,
 #new-tag-btn,
 #show-control {
 	background-color: red;
@@ -37,15 +70,18 @@ h1 {
 	font-size: 1.5rem;
 	z-index: 10;
 	background-position: center;
-	transition: 0.9s;
+	transition: 0.4s;
 }
 
-#show-control:focus,
+#show-control:active {
+	transform: scale(0.8);
+}
+
 #show-control:hover {
 	background-color: #ff5252;
 }
 
-#new-note-btn,
+#new-todo-btn,
 #new-tag-btn {
 	height: 3rem;
 	width: 3rem;
@@ -53,7 +89,7 @@ h1 {
 	font-size: 1rem;
 }
 
-#new-note,
+#new-todo,
 #new-tag {
 	display: flex;
 	right: 1.5rem;
@@ -61,17 +97,20 @@ h1 {
 	justify-content: center;
 	align-items: center;
 	transition: 0.5s;
+	pointer-events: none;
 }
 
 .new-note-move-up {
 	transform: translateY(-5rem);
+	pointer-events: all !important;
 }
 
 .new-tag-move-up {
 	transform: translateY(-9.5rem);
+	pointer-events: all !important;
 }
 
-#new-note p,
+#new-todo p,
 #new-tag p {
 	opacity: 0;
 	font-weight: 600;
@@ -88,12 +127,11 @@ h1 {
 	left: 50%;
 	transform: translate(-50%, -50%) scale(0);
 	transition: 0.4s;
-	border: 2px solid black;
-	border-radius: 4px;
+	border-radius: 12px;
 	z-index: 20;
 	background-color: white;
 	width: 500px;
-	max-width: 60%;
+	max-width: 80%;
 }
 
 .modal.active {
@@ -101,17 +139,11 @@ h1 {
 }
 
 .modal-header {
-	padding: 10px 15px;
+	padding: 1rem 15px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-}
-
-.modal-header .close-btn {
-	cursor: pointer;
-	border: none;
-	outline: none;
-	background: none;
+	font-weight: 600;
 	font-size: 1.5rem;
 }
 
@@ -135,4 +167,66 @@ h1 {
 #overlay.active {
 	opacity: 1;
 	pointer-events: all;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	font-weight: 500;
+	font-size: 0.9rem;
+	color: rgb(37, 37, 37);
+}
+
+.input-btn-container {
+	display: flex;
+	justify-content: flex-end;
+}
+
+input[type="button"] {
+	margin-left: 1.5rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border: none;
+	background: none;
+	cursor: pointer;
+	color: red;
+	font-weight: 600;
+	font-size: 1rem;
+	font-family: "Montserrat", sans-serif;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+	padding: 0.4rem;
+	margin-bottom: 1rem;
+	border: none;
+	border-bottom: 2px solid transparent;
+	border-radius: 6px;
+	background-color: #ebebeb;
+	transition: 0.4s;
+	outline: none;
+	font-size: 1.2rem;
+	font-family: "Montserrat", sans-serif;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+	border-bottom: 2px solid red;
+}
+
+#todo-main-container {
+	padding: 1rem;
+}
+
+.tag-area {
+	background-color: #ebebeb;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	border-radius: 8px;
+	font-weight: 500;
 }
