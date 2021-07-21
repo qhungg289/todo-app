@@ -1,3 +1,5 @@
+import { tagContainer, toggleTodoComplete } from "./index";
+
 // Control elements
 const showControlBtn = document.getElementById("show-control");
 const newTodoBtnLabel = document.getElementById("new-todo-btn-label");
@@ -7,7 +9,8 @@ const newTag = document.getElementById("new-tag");
 const overlay = document.getElementById("overlay");
 
 // Body
-const todoBodyContainer = document.getElementById("todo-main-container");
+const todoBodyContainer = document.getElementById("display-container");
+const todoArea = document.getElementsByClassName("todo-area");
 
 // Form elements
 const todoTitleField = document.getElementById("todo-title");
@@ -20,6 +23,8 @@ const createTodoBtn = document.getElementById("create-todo-btn");
 const tagNameField = document.getElementById("new-tag-field");
 const closeTagModalBtn = document.getElementById("close-create-tag-modal-btn");
 const createTagBtn = document.getElementById("create-tag-btn");
+
+todoDueDateField.valueAsDate = new Date();
 
 showControlBtn.onclick = () => {
     if (newTodo.classList.contains("new-note-move-up") && newTag.classList.contains("new-tag-move-up")) {
@@ -39,14 +44,14 @@ overlay.onclick = () => {
 newTodo.onclick = () => {
     const modal = document.getElementById("new-note-modal");
     openModal(modal);
-    console.log("todo clicked");
+    todoTitleField.focus();
     hideControl();
 }
 
 newTag.onclick = () => {
     const modal = document.getElementById("new-tag-modal");
     openModal(modal);
-    console.log("tag clicked");
+    tagNameField.focus();
     hideControl();
 }
 
@@ -88,8 +93,19 @@ function renderTagsInBody(tagsList) {
     todoBodyContainer.innerHTML = "";
     tagsList.forEach(tag => {
         const tagArea = document.createElement("div");
-        tagArea.classList.add("tag-area")
-        tagArea.innerHTML = tag.name;
+        tagArea.classList.add("tag-area");
+        tagArea.dataset.name = tag.name;
+        // tagArea.innerHTML = tag.name;
+
+        const name = document.createElement("p");
+        name.innerHTML = tag.name
+
+        const todoArea = document.createElement("div");
+        todoArea.classList.add("todo-area");
+        todoArea.dataset.name = tag.name;
+
+        tagArea.appendChild(name);
+        tagArea.appendChild(todoArea);
         todoBodyContainer.appendChild(tagArea);
     });
 }
@@ -109,4 +125,76 @@ function renderTags(tagsList) {
     renderTagsInTodoModal(tagsList);
 }
 
-export { renderTags, createTagBtn, tagNameField, closeTagModalBtn };
+function renderTodos(tagsList) {
+    [...todoArea].forEach(area => {
+        area.innerHTML = "";
+    });
+
+    tagsList.forEach(tag => {
+        tag.forEach(todo => {
+            const todoElement = document.createElement("div");
+            todoElement.classList.add("todo-element");
+            todoElement.dataset.name = todo.tag;
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.dataset.name = todo.tag;
+            checkbox.onclick = toggleTodoComplete.bind(todo);
+
+            const span = document.createElement("span");
+            span.innerHTML = todo.title;
+
+            // const date = document.createElement("span");
+            // date.innerHTML = todo.dueDate;
+
+            if (todo.completed == true) {
+                checkbox.checked = true;
+            }
+
+            if (todo.priority == "normal") {
+                todoElement.style.borderLeft = "4px solid #A3BE8C";
+            } else if (todo.priority == "medium") {
+                todoElement.style.borderLeft = "4px solid #EBCB8B";
+            } else if (todo.priority == "high") {
+                todoElement.style.borderLeft = "4px solid #BF616A";
+            }
+
+            const div = document.createElement("div");
+            div.appendChild(checkbox);
+            div.appendChild(span);
+
+            todoElement.appendChild(div);
+
+            [...todoArea].forEach(area => {
+                if (todo.tag == area.dataset.name) {
+                    area.appendChild(todoElement);
+                }
+            });
+        });
+    });
+}
+
+function clearField() {
+    tagNameField.value = null;
+    todoTitleField.value = null;
+    todoDescField.value = null;
+    todoDueDateField.valueAsDate = new Date();
+    todoPriorityField.value = "normal";
+    // todoTagField.value = "Default";
+}
+
+export {
+    renderTags,
+    renderTodos,
+    clearField,
+    createTagBtn,
+    closeTagModalBtn,
+    tagNameField,
+    createTodoBtn,
+    closeTodoModalBtn,
+    todoTitleField,
+    todoDescField,
+    todoDueDateField,
+    todoPriorityField,
+    todoTagField
+};
