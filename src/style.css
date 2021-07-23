@@ -233,15 +233,33 @@ select:focus {
 	margin-bottom: 1.5rem;
 }
 
-.tag-area p {
-	margin: 0 0 0.5rem 0;
+.tag-area .title-container {
 	padding: 1rem;
-	font-size: 1.5rem;
+	margin-bottom: 0.5rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #e5e9f0;
 	border-radius: 8px;
 	color: var(--text-color);
-	background-color: #e5e9f0;
-	font-weight: 600;
+	font-size: 1.5rem;
 	cursor: pointer;
+}
+
+.tag-area p {
+	margin: 0;
+	/* padding: 1rem; */
+	/* font-size: 1.5rem; */
+	/* border-radius: 8px; */
+	/* color: var(--text-color); */
+	/* background-color: #e5e9f0; */
+	font-weight: 600;
+}
+
+.fa-chevron-up {
+	transition: 0.3s;
+	font-size: 1.1rem;
 }
 
 .todo-area {
