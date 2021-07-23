@@ -89,25 +89,42 @@ function showControl() {
     newTagBtnLabel.style.opacity = 1;
 }
 
+// Tab related functions
 function renderTagsInBody(tagsList) {
     todoBodyContainer.innerHTML = "";
     tagsList.forEach(tag => {
         const tagArea = document.createElement("div");
         tagArea.classList.add("tag-area");
         tagArea.dataset.name = tag.name;
-        // tagArea.innerHTML = tag.name;
 
         const name = document.createElement("p");
-        name.innerHTML = tag.name
+        name.innerHTML = tag.name;
+        name.onclick = () => {
+            toggleTagsShow(tag, todoArea);
+        }
 
         const todoArea = document.createElement("div");
         todoArea.classList.add("todo-area");
+        todoArea.classList.add("animate-fading");
         todoArea.dataset.name = tag.name;
+        if (tag.show == false) {
+            todoArea.style.display = "none";
+        }
 
         tagArea.appendChild(name);
         tagArea.appendChild(todoArea);
         todoBodyContainer.appendChild(tagArea);
     });
+}
+
+function toggleTagsShow(tag, todoArea) {
+    if (tag.show == false) {
+        tag.show = true;
+        todoArea.style.display = "flex";
+    } else if (tag.show == true) {
+        tag.show = false;
+        todoArea.style.display = "none";
+    }
 }
 
 function renderTagsInTodoModal(tagsList) {
@@ -125,6 +142,7 @@ function renderTags(tagsList) {
     renderTagsInTodoModal(tagsList);
 }
 
+// Todo related functions
 function renderTodos(tagsList) {
     [...todoArea].forEach(area => {
         area.innerHTML = "";
@@ -141,21 +159,19 @@ function renderTodos(tagsList) {
             checkbox.dataset.name = todo.tag;
             checkbox.onclick = toggleTodoComplete.bind(todo);
 
-            const span = document.createElement("span");
-            span.innerHTML = todo.title;
-
-            // const date = document.createElement("span");
-            // date.innerHTML = todo.dueDate;
-
             if (todo.completed == true) {
                 checkbox.checked = true;
             }
 
-            if (todo.priority == "normal") {
+            const span = document.createElement("span");
+            span.innerHTML = todo.title;
+            span.onclick = showTodoDetail.bind(todo);
+
+            if (todo.priority == "Normal") {
                 todoElement.style.borderLeft = "4px solid #A3BE8C";
-            } else if (todo.priority == "medium") {
+            } else if (todo.priority == "Medium") {
                 todoElement.style.borderLeft = "4px solid #EBCB8B";
-            } else if (todo.priority == "high") {
+            } else if (todo.priority == "High") {
                 todoElement.style.borderLeft = "4px solid #BF616A";
             }
 
@@ -174,12 +190,39 @@ function renderTodos(tagsList) {
     });
 }
 
+function showTodoDetail() {
+    const title = document.createElement("p");
+    title.innerHTML = this.title;
+    const desc = document.createElement("p");
+    desc.innerHTML = this.description;
+    const dueDate = document.createElement("p");
+    dueDate.innerHTML = this.dueDate;
+    const priority = document.createElement("p");
+    priority.innerHTML = this.priority;
+    const tag = document.createElement("p");
+    tag.innerHTML = this.tag;
+
+    const modal = document.getElementById("todo-detail-modal");
+    const modalBody = document.querySelector("#todo-detail-modal .modal-body");
+
+    modalBody.innerHTML = "";
+    modalBody.appendChild(title);
+    modalBody.appendChild(desc);
+    modalBody.appendChild(dueDate);
+    modalBody.appendChild(priority);
+    modalBody.appendChild(tag);
+
+    openModal(modal);
+    hideControl();
+}
+
+// Clear all field's value
 function clearField() {
     tagNameField.value = null;
     todoTitleField.value = null;
     todoDescField.value = null;
     todoDueDateField.valueAsDate = new Date();
-    todoPriorityField.value = "normal";
+    todoPriorityField.value = "Normal";
     // todoTagField.value = "Default";
 }
 
