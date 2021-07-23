@@ -3,7 +3,7 @@ import {
     toggleTodoComplete,
     createNewTag,
     createNewTodo,
-    checkForNameDuplicate
+    checkForNameDuplicate,
 } from "./index";
 
 // Control elements
@@ -24,7 +24,9 @@ const todoDescField = document.getElementById("todo-desc");
 const todoDueDateField = document.getElementById("todo-due-date");
 const todoPriorityField = document.getElementById("todo-priority");
 const todoTagField = document.getElementById("todo-tag");
-const closeTodoModalBtn = document.getElementById("close-create-todo-modal-btn");
+const closeTodoModalBtn = document.getElementById(
+    "close-create-todo-modal-btn"
+);
 const createTodoBtn = document.getElementById("create-todo-btn");
 const tagNameField = document.getElementById("new-tag-field");
 const closeTagModalBtn = document.getElementById("close-create-tag-modal-btn");
@@ -42,38 +44,38 @@ showControlBtn.onclick = () => {
     } else {
         showControl();
     }
-}
+};
 
 overlay.onclick = () => {
     const modals = document.querySelectorAll(".modal.active");
-    modals.forEach(modal => {
+    modals.forEach((modal) => {
         closeModal(modal);
-    })
-}
+    });
+};
 
 newTodo.onclick = () => {
     const modal = document.getElementById("new-note-modal");
     openModal(modal);
     todoTitleField.focus();
     hideControl();
-}
+};
 
 newTag.onclick = () => {
     const modal = document.getElementById("new-tag-modal");
     openModal(modal);
     tagNameField.focus();
     hideControl();
-}
+};
 
 closeTodoModalBtn.onclick = () => {
     const modal = document.getElementById("new-note-modal");
     closeModal(modal);
-}
+};
 
 closeTagModalBtn.onclick = () => {
     const modal = document.getElementById("new-tag-modal");
     closeModal(modal);
-}
+};
 
 function openModal(modal) {
     modal.classList.add("active");
@@ -113,9 +115,9 @@ createTagBtn.onclick = () => {
         renderTodos(tagContainer);
         clearField();
     }
-}
+};
 
-tagNameField.addEventListener("keyup", event => {
+tagNameField.addEventListener("keyup", (event) => {
     if (event.key !== "Enter") return;
     createTagBtn.click();
     event.preventDefault();
@@ -137,7 +139,7 @@ createTodoBtn.onclick = () => {
         renderTodos(tagContainer);
         clearField();
     }
-}
+};
 
 todoTitleField.addEventListener("keyup", (event) => {
     if (event.key !== "Enter") return;
@@ -154,7 +156,7 @@ todoDescField.addEventListener("keyup", (event) => {
 // Tab related functions
 function renderTagsInBody(tagsList) {
     todoBodyContainer.innerHTML = "";
-    tagsList.forEach(tag => {
+    tagsList.forEach((tag) => {
         const tagArea = document.createElement("div");
         tagArea.classList.add("tag-area");
         tagArea.dataset.name = tag.name;
@@ -172,7 +174,7 @@ function renderTagsInBody(tagsList) {
         tagNameContainer.appendChild(indicator);
         tagNameContainer.onclick = () => {
             toggleTagsShow(tag, todoArea, indicator);
-        }
+        };
 
         const todoArea = document.createElement("div");
         todoArea.classList.add("todo-area");
@@ -202,12 +204,12 @@ function toggleTagsShow(tag, todoArea, indicator) {
 
 function renderTagsInTodoModal(tagsList) {
     todoTagField.innerHTML = "";
-    tagsList.forEach(tag => {
+    tagsList.forEach((tag) => {
         const tagOption = document.createElement("option");
         tagOption.value = tag.name;
         tagOption.innerHTML = tag.name;
         todoTagField.appendChild(tagOption);
-    })
+    });
 }
 
 function renderTags(tagsList) {
@@ -217,12 +219,12 @@ function renderTags(tagsList) {
 
 // Todo related functions
 function renderTodos(tagsList) {
-    [...todoArea].forEach(area => {
+    [...todoArea].forEach((area) => {
         area.innerHTML = "";
     });
 
-    tagsList.forEach(tag => {
-        tag.forEach(todo => {
+    tagsList.forEach((tag) => {
+        tag.forEach((todo) => {
             const todoElement = document.createElement("div");
             todoElement.classList.add("todo-element");
             todoElement.dataset.name = todo.tag;
@@ -254,7 +256,7 @@ function renderTodos(tagsList) {
 
             todoElement.appendChild(div);
 
-            [...todoArea].forEach(area => {
+            [...todoArea].forEach((area) => {
                 if (todo.tag == area.dataset.name) {
                     area.appendChild(todoElement);
                 }
@@ -299,7 +301,4 @@ function clearField() {
     // todoTagField.value = "Default";
 }
 
-export {
-    renderTags,
-    renderTodos,
-};
+export { renderTags, renderTodos };
