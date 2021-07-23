@@ -34,7 +34,10 @@ todoDueDateField.valueAsDate = new Date();
 
 // Modal and control
 showControlBtn.onclick = () => {
-    if (newTodo.classList.contains("new-note-move-up") && newTag.classList.contains("new-tag-move-up")) {
+    if (
+        newTodo.classList.contains("new-note-move-up") &&
+        newTag.classList.contains("new-tag-move-up")
+    ) {
         hideControl();
     } else {
         showControl();
@@ -158,8 +161,17 @@ function renderTagsInBody(tagsList) {
 
         const name = document.createElement("p");
         name.innerHTML = tag.name;
-        name.onclick = () => {
-            toggleTagsShow(tag, todoArea);
+
+        const indicator = document.createElement("i");
+        indicator.classList.add("fas");
+        indicator.classList.add("fa-chevron-up");
+
+        const tagNameContainer = document.createElement("div");
+        tagNameContainer.classList.add("title-container");
+        tagNameContainer.appendChild(name);
+        tagNameContainer.appendChild(indicator);
+        tagNameContainer.onclick = () => {
+            toggleTagsShow(tag, todoArea, indicator);
         }
 
         const todoArea = document.createElement("div");
@@ -170,19 +182,21 @@ function renderTagsInBody(tagsList) {
             todoArea.style.display = "none";
         }
 
-        tagArea.appendChild(name);
+        tagArea.appendChild(tagNameContainer);
         tagArea.appendChild(todoArea);
         todoBodyContainer.appendChild(tagArea);
     });
 }
 
-function toggleTagsShow(tag, todoArea) {
+function toggleTagsShow(tag, todoArea, indicator) {
     if (tag.show == false) {
         tag.show = true;
         todoArea.style.display = "flex";
+        indicator.style.transform = "rotate(0deg)";
     } else if (tag.show == true) {
         tag.show = false;
         todoArea.style.display = "none";
+        indicator.style.transform = "rotate(180deg)";
     }
 }
 
