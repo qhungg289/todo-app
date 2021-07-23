@@ -3,8 +3,9 @@ import { todoGenerator } from "./todoGenerator"
 import * as DOM from "./DOM";
 
 let defaultTag = [];
-let tagContainer = [defaultTag];
 defaultTag.name = "Main";
+defaultTag.show = true;
+let tagContainer = [defaultTag];
 
 // Init render
 DOM.renderTags(tagContainer);
@@ -14,6 +15,7 @@ DOM.renderTodos(tagContainer);
 function createNewTag(field) {
     let tag = [];
     tag.name = field;
+    tag.show = true;
     tagContainer.push(tag);
     DOM.closeTagModalBtn.click();
     DOM.renderTags(tagContainer);
@@ -90,9 +92,17 @@ DOM.todoDescField.addEventListener("keyup", (event) => {
 function toggleTodoComplete() {
     if (this.completed == false) {
         this.completed = true;
+        console.log(this);
     } else {
         this.completed = false;
+        console.log(this);
     }
 }
 
-export { tagContainer, toggleTodoComplete };
+export {
+    tagContainer,
+    toggleTodoComplete,
+    createNewTag,
+    createNewTodo,
+    checkForNameDuplicate
+};
