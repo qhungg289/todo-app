@@ -1,4 +1,10 @@
-import { tagContainer, toggleTodoComplete } from "./index";
+import {
+    tagContainer,
+    toggleTodoComplete,
+    createNewTag,
+    createNewTodo,
+    checkForNameDuplicate
+} from "./index";
 
 // Control elements
 const showControlBtn = document.getElementById("show-control");
@@ -26,6 +32,7 @@ const createTagBtn = document.getElementById("create-tag-btn");
 
 todoDueDateField.valueAsDate = new Date();
 
+// Modal and control
 showControlBtn.onclick = () => {
     if (newTodo.classList.contains("new-note-move-up") && newTag.classList.contains("new-tag-move-up")) {
         hideControl();
@@ -88,6 +95,58 @@ function showControl() {
     newTodoBtnLabel.style.opacity = 1;
     newTagBtnLabel.style.opacity = 1;
 }
+
+// Create todo and create tag event listener
+// // Tag
+createTagBtn.onclick = () => {
+    if (checkForNameDuplicate(tagNameField.value) == true) {
+        alert("Name already exist! Please choose another name!");
+    } else if (tagNameField.value == "") {
+        alert("Don't leave it empty!");
+    } else {
+        createNewTag(tagNameField.value);
+        closeTagModalBtn.click();
+        renderTags(tagContainer);
+        renderTodos(tagContainer);
+        clearField();
+    }
+}
+
+tagNameField.addEventListener("keyup", event => {
+    if (event.key !== "Enter") return;
+    createTagBtn.click();
+    event.preventDefault();
+});
+
+// // Todo
+createTodoBtn.onclick = () => {
+    if (todoTitleField.value == "") {
+        alert("Don't leave the title empty!");
+    } else {
+        createNewTodo(
+            todoTitleField.value,
+            todoDescField.value,
+            todoDueDateField.value,
+            todoPriorityField.value,
+            todoTagField.value
+        );
+        closeTodoModalBtn.click();
+        renderTodos(tagContainer);
+        clearField();
+    }
+}
+
+todoTitleField.addEventListener("keyup", (event) => {
+    if (event.key !== "Enter") return;
+    createTodoBtn.click();
+    event.preventDefault();
+});
+
+todoDescField.addEventListener("keyup", (event) => {
+    if (event.key !== "Enter") return;
+    createTodoBtn.click();
+    event.preventDefault();
+});
 
 // Tab related functions
 function renderTagsInBody(tagsList) {
@@ -229,15 +288,4 @@ function clearField() {
 export {
     renderTags,
     renderTodos,
-    clearField,
-    createTagBtn,
-    closeTagModalBtn,
-    tagNameField,
-    createTodoBtn,
-    closeTodoModalBtn,
-    todoTitleField,
-    todoDescField,
-    todoDueDateField,
-    todoPriorityField,
-    todoTagField
 };
