@@ -136,6 +136,7 @@ body {
 	background-color: var(--bg-color);
 	width: 500px;
 	max-width: 80%;
+	font-size: 1.1rem;
 	color: var(--text-color);
 }
 
@@ -223,7 +224,6 @@ select:focus {
 	padding: 1rem;
 	overflow: auto;
 	height: 77vh;
-	z-index: 1;
 }
 
 .tag-area {
@@ -244,10 +244,6 @@ select:focus {
 	cursor: pointer;
 }
 
-.tag-area p:active + .todo-area {
-	display: none;
-}
-
 .todo-area {
 	display: flex;
 	flex-direction: column;
@@ -258,10 +254,15 @@ select:focus {
 	align-items: center;
 	justify-content: space-between;
 	margin: 0.25rem 0;
-	cursor: pointer;
 	position: relative;
 	transition: 0.3s;
 }
+
+/* .todo-element:hover,
+.todo-element:active,
+.todo-element:focus {
+	border: #2e3440 dashed 2px;
+} */
 
 .todo-element div {
 	display: inline-flex;
@@ -272,9 +273,9 @@ select:focus {
 	color: var(--text-color);
 	font-size: 1.2rem;
 	font-weight: 500;
-	/* user-select: none; */
 	padding: 0.5rem 0.25rem;
 	transition: 0.3s;
+	cursor: pointer;
 }
 
 .todo-element input {
@@ -312,4 +313,18 @@ select:focus {
 .todo-element input:checked + span {
 	color: rgb(171 171 171);
 	text-decoration: line-through 2px;
+}
+
+.animate-fading {
+	animation: fading 0.5s;
+}
+
+@keyframes fading {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }
