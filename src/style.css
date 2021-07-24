@@ -157,6 +157,16 @@ body {
 	padding: 10px 15px;
 }
 
+.modal label {
+	font-weight: 600;
+}
+
+.modal p {
+	font-size: 1.2rem;
+	margin: 0 0 1rem 0;
+	word-wrap: break-word;
+}
+
 #overlay {
 	position: fixed;
 	opacity: 0;
@@ -186,9 +196,7 @@ body {
 }
 
 input[type="button"] {
-	margin-left: 1.5rem;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	padding: 1rem;
 	border: none;
 	background: none;
 	cursor: pointer;
@@ -218,6 +226,11 @@ input[type="text"]:focus,
 input[type="date"]:focus,
 select:focus {
 	border-bottom: 2px solid var(--accent);
+}
+
+#edit-todo-detail-btn {
+	background-color: #e5e9f0;
+	border-radius: 12px;
 }
 
 #display-container {
@@ -276,15 +289,10 @@ select:focus {
 	transition: 0.3s;
 }
 
-/* .todo-element:hover,
-.todo-element:active,
-.todo-element:focus {
-	border: #2e3440 dashed 2px;
-} */
-
 .todo-element div {
 	display: inline-flex;
 	align-items: center;
+	width: 100%;
 }
 
 .todo-element span {
@@ -292,14 +300,15 @@ select:focus {
 	font-size: 1.2rem;
 	font-weight: 500;
 	padding: 0.5rem 0.25rem;
+	width: 100%;
 	transition: 0.3s;
 	cursor: pointer;
 }
 
 .todo-element input {
 	height: 25px;
-	width: 25px;
-	margin: 0 0.5rem 0 0.5rem;
+	min-width: 25px;
+	margin: 0 0.5rem;
 	appearance: none;
 	border: 3px solid #e5e9f0;
 	border-radius: 6px;
