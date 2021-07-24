@@ -43,10 +43,8 @@ function createNewTodo(title, desc, dueDate, priority, tag) {
 function toggleTodoComplete() {
 	if (this.completed == false) {
 		this.completed = true;
-		console.log(this);
 	} else {
 		this.completed = false;
-		console.log(this);
 	}
 }
 
