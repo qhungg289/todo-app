@@ -108,7 +108,7 @@ function showControl() {
 createTagBtn.onclick = () => {
 	if (checkForNameDuplicate(tagNameField.value) == true) {
 		alert("Name already exist! Please choose another name!");
-	} else if (tagNameField.value == "") {
+	} else if (!tagNameField.value) {
 		alert("Don't leave it empty!");
 	} else {
 		createNewTag(tagNameField.value);
@@ -127,7 +127,7 @@ tagNameField.addEventListener("keyup", (event) => {
 
 // // Todo
 createTodoBtn.onclick = () => {
-	if (todoTitleField.value == "") {
+	if (!todoTitleField.value) {
 		alert("Don't leave the title empty!");
 	} else {
 		createNewTodo(
@@ -155,7 +155,7 @@ todoDescField.addEventListener("keyup", (event) => {
 	event.preventDefault();
 });
 
-// Tab related functions
+// Tag related functions
 function renderTagsInBody(tagsList) {
 	todoBodyContainer.innerHTML = "";
 	tagsList.forEach((tag) => {
@@ -230,6 +230,7 @@ function renderTodos(tagsList) {
 			const todoElement = document.createElement("div");
 			todoElement.classList.add("todo-element");
 			todoElement.dataset.name = todo.tag;
+			showTodoPriority(todo.priority, todoElement);
 
 			const checkbox = document.createElement("input");
 			checkbox.type = "checkbox";
@@ -244,14 +245,6 @@ function renderTodos(tagsList) {
 			span.innerHTML = todo.title;
 			span.onclick = showTodoDetail.bind(todo);
 
-			if (todo.priority == "Normal") {
-				todoElement.style.borderLeft = "4px solid #A3BE8C";
-			} else if (todo.priority == "Medium") {
-				todoElement.style.borderLeft = "4px solid #EBCB8B";
-			} else if (todo.priority == "High") {
-				todoElement.style.borderLeft = "4px solid #BF616A";
-			}
-
 			const div = document.createElement("div");
 			div.appendChild(checkbox);
 			div.appendChild(span);
@@ -265,6 +258,16 @@ function renderTodos(tagsList) {
 			});
 		});
 	});
+}
+
+function showTodoPriority(priority, element) {
+	if (priority == "Normal") {
+		element.style.borderLeft = "4px solid #A3BE8C";
+	} else if (priority == "Medium") {
+		element.style.borderLeft = "4px solid #EBCB8B";
+	} else if (priority == "High") {
+		element.style.borderLeft = "4px solid #BF616A";
+	}
 }
 
 function showTodoDetail() {
@@ -292,8 +295,14 @@ function showTodoDetail() {
 	priorityLabel.innerHTML = "Priority";
 	tagLabel.innerHTML = "Tag";
 
+	title.id = "title-detail";
+	desc.id = "desc-detail";
+	dueDate.id = "due-date-detail";
+	priority.id = "priority-detail";
+	tag.id = "tag-detail";
+
 	title.innerHTML = this.title;
-	if (this.description == "") {
+	if (!this.description) {
 		desc.innerHTML = "None";
 	} else {
 		desc.innerHTML = this.description;
@@ -313,10 +322,15 @@ function showTodoDetail() {
 	tagContainer.appendChild(tagLabel);
 	tagContainer.appendChild(tag);
 
+	const doneBtn = document.createElement("input");
+	doneBtn.type = "button";
+	doneBtn.value = "DONE";
+	doneBtn.id = "done-edit-btn";
+	doneBtn.style.visibility = "hidden";
+
 	const closeBtn = document.createElement("input");
 	closeBtn.type = "button";
 	closeBtn.value = "CLOSE";
-	closeBtn.id = "close-todo-detail-modal";
 	closeBtn.onclick = () => {
 		closeModal(modal);
 	};
@@ -324,12 +338,22 @@ function showTodoDetail() {
 	const inputContainer = document.createElement("div");
 	inputContainer.classList.add("input-btn-container");
 	inputContainer.id = "todo-detail-modal-input";
+	inputContainer.appendChild(doneBtn);
 	inputContainer.appendChild(closeBtn);
 
+	const editTodoDetailBtn = document.createElement("input");
+	editTodoDetailBtn.type = "button";
+	editTodoDetailBtn.value = "EDIT";
+	editTodoDetailBtn.id = "edit-todo-detail-btn";
+	editTodoDetailBtn.onclick = editTodoDetail.bind(this);
+
 	const modal = document.getElementById("todo-detail-modal");
+	const modalHeader = document.getElementById("edit-todo-detail-btn-container");
 	const modalBody = document.querySelector("#todo-detail-modal .modal-body");
 
 	modalBody.innerHTML = "";
+	modalHeader.innerHTML = "";
+	modalHeader.appendChild(editTodoDetailBtn);
 	modalBody.appendChild(titleContainer);
 	modalBody.appendChild(descContainer);
 	modalBody.appendChild(dueDateContainer);
@@ -339,6 +363,90 @@ function showTodoDetail() {
 
 	openModal(modal);
 	hideControl();
+}
+
+function editTodoDetail() {
+	const titleDetail = document.getElementById("title-detail");
+	const titleInput = document.createElement("input");
+	titleInput.type = "text";
+	titleInput.value = this.title;
+	titleDetail?.replaceWith(titleInput);
+
+	const descDetail = document.getElementById("desc-detail");
+	const descInput = document.createElement("input");
+	descInput.type = "text";
+	descInput.value = this.description;
+	descDetail?.replaceWith(descInput);
+
+	const dueDateDetail = document.getElementById("due-date-detail");
+	const dueDateInput = document.createElement("input");
+	dueDateInput.type = "date";
+	dueDateInput.value = this.dueDate;
+	dueDateDetail?.replaceWith(dueDateInput);
+
+	const priorityDetail = document.getElementById("priority-detail");
+	const priorityInput = document.createElement("select");
+	const normalValue = document.createElement("option");
+	normalValue.value = "Normal";
+	normalValue.innerHTML = "Normal";
+	const mediumValue = document.createElement("option");
+	mediumValue.value = "Medium";
+	mediumValue.innerHTML = "Medium";
+	const highValue = document.createElement("option");
+	highValue.value = "High";
+	highValue.innerHTML = "High";
+	priorityInput.appendChild(normalValue);
+	priorityInput.appendChild(mediumValue);
+	priorityInput.appendChild(highValue);
+	priorityInput.value = this.priority;
+	priorityDetail?.replaceWith(priorityInput);
+
+	// const tagDetail = document.getElementById("tag-detail");
+	// const tagInput = document.createElement("select");
+	// tagInput.innerHTML = "";
+	// tagContainer.forEach((tag) => {
+	// 	const tagOption = document.createElement("option");
+	// 	tagOption.value = tag.name;
+	// 	tagOption.innerHTML = tag.name;
+	// 	tagInput.appendChild(tagOption);
+	// });
+	// tagInput.value = this.tag;
+	// tagDetail?.replaceWith(tagInput);
+
+	const doneBtn = document.getElementById("done-edit-btn");
+	const editBtn = document.getElementById("edit-todo-detail-btn");
+	editBtn.style.visibility = "hidden";
+	doneBtn.style.visibility = "visible";
+	doneBtn.onclick = () => {
+		if (titleInput.value == "") {
+			alert("Don't leave the title empty!");
+		} else {
+			this.title = titleInput.value;
+			this.description = descInput.value;
+			this.dueDate = dueDateInput.value;
+			this.priority = priorityInput.value;
+			// this.tag = tagInput.value;
+			renderTodos(tagContainer);
+
+			titleDetail.innerHTML = this.title;
+			titleInput?.replaceWith(titleDetail);
+			if (!this.description) {
+				descDetail.innerHTML = "None";
+			} else {
+				descDetail.innerHTML = this.description;
+			}
+			descInput?.replaceWith(descDetail);
+			dueDateDetail.innerHTML = this.dueDate;
+			dueDateInput?.replaceWith(dueDateDetail);
+			priorityDetail.innerHTML = this.priority;
+			priorityInput?.replaceWith(priorityDetail);
+			// tagDetail.innerHTML = this.tag;
+			// tagInput?.replaceWith(tagDetail);
+
+			editBtn.style.visibility = "visible";
+			doneBtn.style.visibility = "hidden";
+		}
+	};
 }
 
 // Clear all field's value
