@@ -136,8 +136,10 @@ body {
 	background-color: var(--bg-color);
 	width: 500px;
 	max-width: 80%;
+	max-height: 90%;
 	font-size: 1.1rem;
 	color: var(--text-color);
+	overflow: auto;
 }
 
 .modal.active {
@@ -164,7 +166,18 @@ body {
 .modal p {
 	font-size: 1.2rem;
 	margin: 0 0 1rem 0;
+	padding: 0.4rem 0;
 	word-wrap: break-word;
+}
+
+#todo-detail-modal .modal-body div {
+	display: flex;
+	flex-direction: column;
+}
+
+#todo-detail-modal .modal-body div:last-child {
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 #overlay {
@@ -229,6 +242,11 @@ select:focus {
 }
 
 #edit-todo-detail-btn {
+	/* background-color: #e5e9f0; */
+	border-radius: 12px;
+}
+
+#done-edit-btn {
 	background-color: #e5e9f0;
 	border-radius: 12px;
 }
@@ -240,10 +258,8 @@ select:focus {
 }
 
 .tag-area {
-	/* background-color: #ebebeb;
-	padding: 1rem; */
-	overflow: hidden;
 	margin-bottom: 1.5rem;
+	overflow: hidden;
 }
 
 .tag-area .title-container {
@@ -258,15 +274,16 @@ select:focus {
 	color: var(--text-color);
 	font-size: 1.5rem;
 	cursor: pointer;
+	transition: 0.3s;
+}
+
+.tag-area .title-container:hover,
+.tag-area .title-container:focus {
+	background-color: #d8dee9;
 }
 
 .tag-area p {
 	margin: 0;
-	/* padding: 1rem; */
-	/* font-size: 1.5rem; */
-	/* border-radius: 8px; */
-	/* color: var(--text-color); */
-	/* background-color: #e5e9f0; */
 	font-weight: 600;
 }
 
@@ -285,8 +302,14 @@ select:focus {
 	align-items: center;
 	justify-content: space-between;
 	margin: 0.25rem 0;
+	border-radius: 4px;
 	position: relative;
 	transition: 0.3s;
+}
+
+.todo-element:hover,
+.todo-element:focus {
+	background-color: #eceff4;
 }
 
 .todo-element div {
