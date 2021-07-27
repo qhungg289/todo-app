@@ -10,7 +10,7 @@ let tagContainer = [defaultTag];
 renderTags(tagContainer);
 renderTodos(tagContainer);
 
-// todo class
+// Todo class
 class todoGenerator {
 	constructor(title, description, dueDate, priority, tag) {
 		this.completed = false;
@@ -27,6 +27,22 @@ class todoGenerator {
 		} else {
 			this.completed = false;
 			console.log(this);
+		}
+	}
+	modifyTodoDetail(title, description, dueDate, priority, tag) {
+		this.title = title;
+		this.description = description;
+		this.dueDate = dueDate;
+		this.priority = priority;
+		// this.tag = tag;
+		console.log(this);
+	}
+	removeTodo() {
+		for (let i = 0; i < tagContainer.length; i++) {
+			if (this.tag == tagContainer[i].name) {
+				tagContainer[i].splice(tagContainer[i].indexOf(this), 1);
+				console.log(tagContainer);
+			}
 		}
 	}
 }
@@ -58,9 +74,5 @@ function createNewTodo(title, desc, dueDate, priority, tag) {
 		}
 	}
 }
-
-// Remove todo
-// Modify todo detail
-function modifyTodoDetail() {}
 
 export { tagContainer, createNewTag, createNewTodo, checkForNameDuplicate };
