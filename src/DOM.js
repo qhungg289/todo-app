@@ -336,6 +336,7 @@ function showTodoDetail() {
 	const closeBtn = document.createElement("input");
 	closeBtn.type = "button";
 	closeBtn.value = "CLOSE";
+	closeBtn.id = "close-todo-detail-modal";
 	closeBtn.onclick = () => {
 		closeModal(modal);
 	};
@@ -350,7 +351,7 @@ function showTodoDetail() {
 	editTodoDetailBtn.type = "button";
 	editTodoDetailBtn.value = "EDIT";
 	editTodoDetailBtn.id = "edit-todo-detail-btn";
-	editTodoDetailBtn.onclick = showInputTodoDetail.bind(this);
+	editTodoDetailBtn.onclick = showTodoDetailModify.bind(this);
 
 	const modal = document.getElementById("todo-detail-modal");
 	const modalHeader = document.getElementById("edit-todo-detail-btn-container");
@@ -370,7 +371,7 @@ function showTodoDetail() {
 	hideControl();
 }
 
-function showInputTodoDetail() {
+function showTodoDetailModify() {
 	const titleDetail = document.getElementById("title-detail");
 	const titleInput = document.createElement("input");
 	titleInput.type = "text";
@@ -419,21 +420,26 @@ function showInputTodoDetail() {
 	// tagDetail?.replaceWith(tagInput);
 
 	const doneBtn = document.getElementById("done-edit-btn");
+	const removeBtn = document.getElementById("remove-todo-btn");
 	const editBtn = document.getElementById("edit-todo-detail-btn");
 	const doneAndRemoveContainer = document.getElementById(
 		"done-remove-container"
 	);
+
 	editBtn.style.visibility = "hidden";
 	doneAndRemoveContainer.style.visibility = "visible";
+
 	doneBtn.onclick = () => {
 		if (titleInput.value == "") {
 			alert("Don't leave the title empty!");
 		} else {
-			this.title = titleInput.value;
-			this.description = descInput.value;
-			this.dueDate = dueDateInput.value;
-			this.priority = priorityInput.value;
-			// this.tag = tagInput.value;
+			this.modifyTodoDetail(
+				titleInput.value,
+				descInput.value,
+				dueDateInput.value,
+				priorityInput.value
+				// tagInput.value
+			);
 			renderTodos(tagContainer);
 
 			titleDetail.innerHTML = this.title;
@@ -450,6 +456,13 @@ function showInputTodoDetail() {
 			editBtn.style.visibility = "visible";
 			doneAndRemoveContainer.style.visibility = "hidden";
 		}
+	};
+
+	removeBtn.onclick = () => {
+		this.removeTodo();
+		const closeBtn = document.getElementById("close-todo-detail-modal");
+		closeBtn.click();
+		renderTodos(tagContainer);
 	};
 }
 
