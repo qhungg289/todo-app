@@ -1,6 +1,5 @@
 import {
 	tagContainer,
-	toggleTodoComplete,
 	createNewTag,
 	createNewTodo,
 	checkForNameDuplicate,
@@ -235,7 +234,7 @@ function renderTodos(tagsList) {
 			const checkbox = document.createElement("input");
 			checkbox.type = "checkbox";
 			checkbox.dataset.name = todo.tag;
-			checkbox.onclick = toggleTodoComplete.bind(todo);
+			checkbox.onclick = todo.toggleTodoComplete.bind(todo);
 
 			if (todo.completed == true) {
 				checkbox.checked = true;
@@ -302,11 +301,7 @@ function showTodoDetail() {
 	tag.id = "tag-detail";
 
 	title.innerHTML = this.title;
-	if (!this.description) {
-		desc.innerHTML = "None";
-	} else {
-		desc.innerHTML = this.description;
-	}
+	desc.innerHTML = this.description ? this.description : "None";
 	dueDate.innerHTML = this.dueDate;
 	priority.innerHTML = this.priority;
 	tag.innerHTML = this.tag;
@@ -326,7 +321,17 @@ function showTodoDetail() {
 	doneBtn.type = "button";
 	doneBtn.value = "DONE";
 	doneBtn.id = "done-edit-btn";
-	doneBtn.style.visibility = "hidden";
+
+	const removeBtn = document.createElement("input");
+	removeBtn.type = "button";
+	removeBtn.value = "REMOVE";
+	removeBtn.id = "remove-todo-btn";
+
+	const div = document.createElement("div");
+	div.id = "done-remove-container";
+	div.appendChild(doneBtn);
+	div.appendChild(removeBtn);
+	div.style.visibility = "hidden";
 
 	const closeBtn = document.createElement("input");
 	closeBtn.type = "button";
@@ -338,14 +343,14 @@ function showTodoDetail() {
 	const inputContainer = document.createElement("div");
 	inputContainer.classList.add("input-btn-container");
 	inputContainer.id = "todo-detail-modal-input";
-	inputContainer.appendChild(doneBtn);
+	inputContainer.appendChild(div);
 	inputContainer.appendChild(closeBtn);
 
 	const editTodoDetailBtn = document.createElement("input");
 	editTodoDetailBtn.type = "button";
 	editTodoDetailBtn.value = "EDIT";
 	editTodoDetailBtn.id = "edit-todo-detail-btn";
-	editTodoDetailBtn.onclick = editTodoDetail.bind(this);
+	editTodoDetailBtn.onclick = showInputTodoDetail.bind(this);
 
 	const modal = document.getElementById("todo-detail-modal");
 	const modalHeader = document.getElementById("edit-todo-detail-btn-container");
@@ -365,7 +370,7 @@ function showTodoDetail() {
 	hideControl();
 }
 
-function editTodoDetail() {
+function showInputTodoDetail() {
 	const titleDetail = document.getElementById("title-detail");
 	const titleInput = document.createElement("input");
 	titleInput.type = "text";
@@ -415,8 +420,11 @@ function editTodoDetail() {
 
 	const doneBtn = document.getElementById("done-edit-btn");
 	const editBtn = document.getElementById("edit-todo-detail-btn");
+	const doneAndRemoveContainer = document.getElementById(
+		"done-remove-container"
+	);
 	editBtn.style.visibility = "hidden";
-	doneBtn.style.visibility = "visible";
+	doneAndRemoveContainer.style.visibility = "visible";
 	doneBtn.onclick = () => {
 		if (titleInput.value == "") {
 			alert("Don't leave the title empty!");
@@ -430,11 +438,7 @@ function editTodoDetail() {
 
 			titleDetail.innerHTML = this.title;
 			titleInput?.replaceWith(titleDetail);
-			if (!this.description) {
-				descDetail.innerHTML = "None";
-			} else {
-				descDetail.innerHTML = this.description;
-			}
+			descDetail.innerHTML = this.description ? this.description : "None";
 			descInput?.replaceWith(descDetail);
 			dueDateDetail.innerHTML = this.dueDate;
 			dueDateInput?.replaceWith(dueDateDetail);
@@ -444,7 +448,7 @@ function editTodoDetail() {
 			// tagInput?.replaceWith(tagDetail);
 
 			editBtn.style.visibility = "visible";
-			doneBtn.style.visibility = "hidden";
+			doneAndRemoveContainer.style.visibility = "hidden";
 		}
 	};
 }
