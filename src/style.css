@@ -9,6 +9,7 @@ body {
 	font-family: "Open Sans", sans-serif;
 	margin: 0;
 	background-color: var(--bg-color);
+	-webkit-tap-highlight-color: transparent;
 }
 
 #load-screen {
@@ -242,14 +243,18 @@ select:focus {
 	border-bottom: 2px solid var(--accent);
 }
 
-#edit-todo-detail-btn {
-	/* background-color: #e5e9f0; */
-	border-radius: 12px;
-}
-
+#edit-todo-detail-btn,
 #done-edit-btn {
 	background-color: #e5e9f0;
 	border-radius: 12px;
+}
+
+#remove-todo-btn {
+	color: #bf616a;
+}
+
+#done-remove-container {
+	flex-direction: row !important;
 }
 
 #display-container {
