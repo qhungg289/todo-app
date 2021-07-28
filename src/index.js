@@ -6,11 +6,22 @@ defaultTag.name = "Main";
 defaultTag.show = true;
 let tagContainer = [defaultTag];
 
-// Init render
-renderTags(tagContainer);
-renderTodos(tagContainer);
+// Get the data from localStorage on page load and init render
+window.onload = () => {
+	renderTags(tagContainer);
+	renderTodos(tagContainer);
+};
 
-// Todo class
+// Save data to localStorage
+function saveData() {
+	localStorage.setItem("localContainer", JSON.stringify(tagContainer));
+	console.log(JSON.parse(localStorage.getItem("localContainer")));
+}
+
+// // Init render
+// renderTags(tagContainer);
+// renderTodos(tagContainer);
+
 class todoGenerator {
 	constructor(title, description, dueDate, priority, tag) {
 		this.completed = false;
@@ -47,7 +58,6 @@ class todoGenerator {
 	}
 }
 
-// Create new tag
 function createNewTag(field) {
 	let tag = [];
 	tag.name = field;
@@ -64,7 +74,15 @@ function checkForNameDuplicate(field) {
 	}
 }
 
-// Create new todo
+function removeTag(tagName) {
+	for (let i = 0; i < tagContainer.length; i++) {
+		if (tagName == tagContainer[i].name) {
+			tagContainer.splice(i, 1);
+			console.log(tagContainer);
+		}
+	}
+}
+
 function createNewTodo(title, desc, dueDate, priority, tag) {
 	let todo = new todoGenerator(title, desc, dueDate, priority, tag);
 	for (let i = 0; i < tagContainer.length; i++) {
@@ -75,4 +93,11 @@ function createNewTodo(title, desc, dueDate, priority, tag) {
 	}
 }
 
-export { tagContainer, createNewTag, createNewTodo, checkForNameDuplicate };
+export {
+	tagContainer,
+	createNewTag,
+	createNewTodo,
+	checkForNameDuplicate,
+	removeTag,
+	saveData,
+};

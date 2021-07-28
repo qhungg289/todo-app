@@ -3,6 +3,8 @@ import {
 	createNewTag,
 	createNewTodo,
 	checkForNameDuplicate,
+	removeTag,
+	saveData,
 } from "./index";
 
 // Control elements
@@ -114,6 +116,7 @@ createTagBtn.onclick = () => {
 		closeTagModalBtn.click();
 		renderTags(tagContainer);
 		renderTodos(tagContainer);
+		saveData();
 		clearField();
 	}
 };
@@ -128,6 +131,8 @@ tagNameField.addEventListener("keyup", (event) => {
 createTodoBtn.onclick = () => {
 	if (!todoTitleField.value) {
 		alert("Don't leave the title empty!");
+	} else if (tagContainer.length == 0) {
+		alert("Please create a new tag to store your todo!");
 	} else {
 		createNewTodo(
 			todoTitleField.value,
@@ -138,6 +143,7 @@ createTodoBtn.onclick = () => {
 		);
 		closeTodoModalBtn.click();
 		renderTodos(tagContainer);
+		saveData();
 		clearField();
 	}
 };
@@ -165,14 +171,29 @@ function renderTagsInBody(tagsList) {
 		const name = document.createElement("p");
 		name.innerHTML = tag.name;
 
+		const removeTagBtn = document.createElement("i");
+		removeTagBtn.classList.add("fas");
+		removeTagBtn.classList.add("fa-trash-alt");
+		removeTagBtn.classList.add("remove-tag-btn");
+		removeTagBtn.onclick = () => {
+			removeTag(tag.name);
+			renderTags(tagContainer);
+			renderTodos(tagContainer);
+			saveData();
+		};
+
 		const indicator = document.createElement("i");
 		indicator.classList.add("fas");
 		indicator.classList.add("fa-chevron-up");
 
+		const div = document.createElement("div");
+		div.appendChild(removeTagBtn);
+		div.appendChild(indicator);
+
 		const tagNameContainer = document.createElement("div");
 		tagNameContainer.classList.add("title-container");
 		tagNameContainer.appendChild(name);
-		tagNameContainer.appendChild(indicator);
+		tagNameContainer.appendChild(div);
 		tagNameContainer.onclick = () => {
 			toggleTagsShow(tag, todoArea, indicator);
 		};
@@ -234,7 +255,10 @@ function renderTodos(tagsList) {
 			const checkbox = document.createElement("input");
 			checkbox.type = "checkbox";
 			checkbox.dataset.name = todo.tag;
-			checkbox.onclick = todo.toggleTodoComplete.bind(todo);
+			checkbox.onclick = () => {
+				todo.toggleTodoComplete();
+				saveData();
+			};
 
 			if (todo.completed == true) {
 				checkbox.checked = true;
@@ -441,6 +465,7 @@ function showTodoDetailModify() {
 				// tagInput.value
 			);
 			renderTodos(tagContainer);
+			saveData();
 
 			titleDetail.innerHTML = this.title;
 			titleInput?.replaceWith(titleDetail);
@@ -463,6 +488,7 @@ function showTodoDetailModify() {
 		const closeBtn = document.getElementById("close-todo-detail-modal");
 		closeBtn.click();
 		renderTodos(tagContainer);
+		saveData();
 	};
 }
 
