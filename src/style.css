@@ -224,7 +224,6 @@ input[type="button"] {
 input[type="text"],
 input[type="date"],
 select {
-	-webkit-appearance: none;
 	padding: 0.4rem;
 	margin-bottom: 1rem;
 	border: none;
@@ -258,10 +257,30 @@ select:focus {
 	flex-direction: row !important;
 }
 
+.remove-tag-btn {
+	transition: 0.3s;
+	margin-right: 1rem;
+}
+
+.remove-tag-btn:hover {
+	color: #bf616a;
+}
+
+.tag-area .title-container div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 #display-container {
 	padding: 1rem;
 	overflow: auto;
 	height: 77vh;
+	/* display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: min-content;
+	column-gap: 1rem;
+	row-gap: 1rem; */
 }
 
 .tag-area {
@@ -385,3 +404,9 @@ select:focus {
 		opacity: 1;
 	}
 }
+
+/* @media only screen and (max-width: 750px) {
+	#display-container {
+		grid-template-columns: 1fr;
+	}
+} */
