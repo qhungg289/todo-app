@@ -1,26 +1,18 @@
 import "./style.css";
 import { renderTags, renderTodos } from "./DOM";
 
-let defaultTag = [];
-defaultTag.name = "Main";
-defaultTag.show = true;
-let tagContainer = [defaultTag];
+let tagContainer = new Map();
+tagContainer.set("Main", new Array());
 
-// Get the data from localStorage on page load and init render
 window.onload = () => {
 	renderTags(tagContainer);
 	renderTodos(tagContainer);
 };
 
-// Save data to localStorage
 function saveData() {
 	localStorage.setItem("localContainer", JSON.stringify(tagContainer));
-	console.log(JSON.parse(localStorage.getItem("localContainer")));
+	// console.log(JSON.parse(localStorage.getItem("localContainer")));
 }
-
-// // Init render
-// renderTags(tagContainer);
-// renderTodos(tagContainer);
 
 class todoGenerator {
 	constructor(title, description, dueDate, priority, tag) {
@@ -48,6 +40,7 @@ class todoGenerator {
 		// this.tag = tag;
 		console.log(this);
 	}
+	// Rework this!!!
 	removeTodo() {
 		for (let i = 0; i < tagContainer.length; i++) {
 			if (this.tag == tagContainer[i].name) {
@@ -59,11 +52,10 @@ class todoGenerator {
 }
 
 function createNewTag(field) {
-	let tag = [];
-	tag.name = field;
-	tag.show = true;
-	tagContainer.push(tag);
-	console.log(tagContainer);
+	tagContainer.set(`${field}`, new Array());
+	tagContainer.forEach((value, key) => {
+		console.log(`${key}: ${typeof value}`);
+	});
 }
 
 function checkForNameDuplicate(field) {
@@ -75,6 +67,7 @@ function checkForNameDuplicate(field) {
 }
 
 function removeTag(tagName) {
+	// Rework
 	for (let i = 0; i < tagContainer.length; i++) {
 		if (tagName == tagContainer[i].name) {
 			tagContainer.splice(i, 1);
