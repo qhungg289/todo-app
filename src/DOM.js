@@ -2,9 +2,11 @@ import {
 	tagContainer,
 	createNewTag,
 	createNewTodo,
-	checkForNameDuplicate,
 	removeTag,
 	saveData,
+	toggleTodoComplete,
+	modifyTodoDetail,
+	removeTodo,
 } from "./index";
 
 // Control elements
@@ -107,9 +109,7 @@ function showControl() {
 // Create todo and create tag event listener
 // // Tag
 createTagBtn.onclick = () => {
-	if (checkForNameDuplicate(tagNameField.value) == true) {
-		alert("Name already exist! Please choose another name!");
-	} else if (!tagNameField.value) {
+	if (!tagNameField.value) {
 		alert("Don't leave it empty!");
 	} else {
 		createNewTag(tagNameField.value);
@@ -131,7 +131,7 @@ tagNameField.addEventListener("keyup", (event) => {
 createTodoBtn.onclick = () => {
 	if (!todoTitleField.value) {
 		alert("Don't leave the title empty!");
-	} else if (tagContainer.length == 0) {
+	} else if (tagContainer.size == 0) {
 		alert("Please create a new tag to store your todo!");
 	} else {
 		createNewTodo(
@@ -163,48 +163,36 @@ todoDescField.addEventListener("keyup", (event) => {
 // Tag related functions
 function renderTagsInBody(tagsList) {
 	todoBodyContainer.innerHTML = "";
-	tagsList.forEach((tag) => {
+	tagsList.forEach((_value, key) => {
 		const tagArea = document.createElement("div");
 		tagArea.classList.add("tag-area");
-		tagArea.dataset.name = tag.name;
+		tagArea.dataset.name = key;
 
 		const name = document.createElement("p");
-		name.innerHTML = tag.name;
+		name.innerHTML = key;
 
 		const removeTagBtn = document.createElement("i");
 		removeTagBtn.classList.add("fas");
 		removeTagBtn.classList.add("fa-trash-alt");
 		removeTagBtn.classList.add("remove-tag-btn");
 		removeTagBtn.onclick = () => {
-			removeTag(tag.name);
+			removeTag(key);
 			renderTags(tagContainer);
 			renderTodos(tagContainer);
 			saveData();
 		};
 
-		const indicator = document.createElement("i");
-		indicator.classList.add("fas");
-		indicator.classList.add("fa-chevron-up");
-
 		const div = document.createElement("div");
 		div.appendChild(removeTagBtn);
-		div.appendChild(indicator);
 
 		const tagNameContainer = document.createElement("div");
 		tagNameContainer.classList.add("title-container");
 		tagNameContainer.appendChild(name);
 		tagNameContainer.appendChild(div);
-		tagNameContainer.onclick = () => {
-			toggleTagsShow(tag, todoArea, indicator);
-		};
 
 		const todoArea = document.createElement("div");
 		todoArea.classList.add("todo-area");
-		todoArea.classList.add("animate-fading");
-		todoArea.dataset.name = tag.name;
-		if (tag.show == false) {
-			todoArea.style.display = "none";
-		}
+		todoArea.dataset.name = key;
 
 		tagArea.appendChild(tagNameContainer);
 		tagArea.appendChild(todoArea);
@@ -212,24 +200,12 @@ function renderTagsInBody(tagsList) {
 	});
 }
 
-function toggleTagsShow(tag, todoArea, indicator) {
-	if (tag.show == false) {
-		tag.show = true;
-		todoArea.style.display = "flex";
-		indicator.style.transform = "rotate(0deg)";
-	} else if (tag.show == true) {
-		tag.show = false;
-		todoArea.style.display = "none";
-		indicator.style.transform = "rotate(180deg)";
-	}
-}
-
 function renderTagsInTodoModal(tagsList) {
 	todoTagField.innerHTML = "";
-	tagsList.forEach((tag) => {
+	tagsList.forEach((_value, key) => {
 		const tagOption = document.createElement("option");
-		tagOption.value = tag.name;
-		tagOption.innerHTML = tag.name;
+		tagOption.value = key;
+		tagOption.innerHTML = key;
 		todoTagField.appendChild(tagOption);
 	});
 }
@@ -256,7 +232,7 @@ function renderTodos(tagsList) {
 			checkbox.type = "checkbox";
 			checkbox.dataset.name = todo.tag;
 			checkbox.onclick = () => {
-				todo.toggleTodoComplete();
+				toggleTodoComplete(todo);
 				saveData();
 			};
 
@@ -431,18 +407,6 @@ function showTodoDetailModify() {
 	priorityInput.value = this.priority;
 	priorityDetail?.replaceWith(priorityInput);
 
-	// const tagDetail = document.getElementById("tag-detail");
-	// const tagInput = document.createElement("select");
-	// tagInput.innerHTML = "";
-	// tagContainer.forEach((tag) => {
-	// 	const tagOption = document.createElement("option");
-	// 	tagOption.value = tag.name;
-	// 	tagOption.innerHTML = tag.name;
-	// 	tagInput.appendChild(tagOption);
-	// });
-	// tagInput.value = this.tag;
-	// tagDetail?.replaceWith(tagInput);
-
 	const doneBtn = document.getElementById("done-edit-btn");
 	const removeBtn = document.getElementById("remove-todo-btn");
 	const editBtn = document.getElementById("edit-todo-detail-btn");
@@ -457,12 +421,12 @@ function showTodoDetailModify() {
 		if (titleInput.value == "") {
 			alert("Don't leave the title empty!");
 		} else {
-			this.modifyTodoDetail(
+			modifyTodoDetail(
+				this,
 				titleInput.value,
 				descInput.value,
 				dueDateInput.value,
 				priorityInput.value
-				// tagInput.value
 			);
 			renderTodos(tagContainer);
 			saveData();
@@ -475,8 +439,6 @@ function showTodoDetailModify() {
 			dueDateInput?.replaceWith(dueDateDetail);
 			priorityDetail.innerHTML = this.priority;
 			priorityInput?.replaceWith(priorityDetail);
-			// tagDetail.innerHTML = this.tag;
-			// tagInput?.replaceWith(tagDetail);
 
 			editBtn.style.visibility = "visible";
 			doneAndRemoveContainer.style.visibility = "hidden";
@@ -484,7 +446,7 @@ function showTodoDetailModify() {
 	};
 
 	removeBtn.onclick = () => {
-		this.removeTodo();
+		removeTodo(this);
 		const closeBtn = document.getElementById("close-todo-detail-modal");
 		closeBtn.click();
 		renderTodos(tagContainer);
@@ -499,7 +461,6 @@ function clearField() {
 	todoDescField.value = null;
 	todoDueDateField.valueAsDate = new Date();
 	todoPriorityField.value = "Normal";
-	// todoTagField.value = "Default";
 }
 
 export { renderTags, renderTodos };
