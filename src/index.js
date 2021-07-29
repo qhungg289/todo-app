@@ -32,7 +32,7 @@ class todoGenerator {
 			console.log(this);
 		}
 	}
-	modifyTodoDetail(title, description, dueDate, priority, tag) {
+	modifyTodoDetail(title, description, dueDate, priority, _tag) {
 		this.title = title;
 		this.description = description;
 		this.dueDate = dueDate;
@@ -42,48 +42,51 @@ class todoGenerator {
 	}
 	// Rework this!!!
 	removeTodo() {
-		for (let i = 0; i < tagContainer.length; i++) {
-			if (this.tag == tagContainer[i].name) {
-				tagContainer[i].splice(tagContainer[i].indexOf(this), 1);
+		// for (let i = 0; i < tagContainer.length; i++) {
+		// 	if (this.tag == tagContainer[i].name) {
+		// 		tagContainer[i].splice(tagContainer[i].indexOf(this), 1);
+		// 		console.log(tagContainer);
+		// 	}
+		// }
+		tagContainer.forEach((value, key) => {
+			if (this.tag == key) {
+				tagContainer.get(key).splice(tagContainer.get(key).indexOf(this), 1);
 				console.log(tagContainer);
 			}
-		}
+		});
 	}
 }
 
 function createNewTag(field) {
 	tagContainer.set(`${field}`, new Array());
-	tagContainer.forEach((value, key) => {
-		console.log(`${key}: ${typeof value}`);
-	});
+	console.log(tagContainer);
 }
 
-function checkForNameDuplicate(field) {
-	for (let i = 0; i < tagContainer.length; i++) {
-		if (field == tagContainer[i].name) {
-			return true;
-		}
-	}
+function checkForNameDuplicate(_field) {
+	// for (let i = 0; i < tagContainer.length; i++) {
+	// 	if (field == tagContainer[i].name) {
+	// 		return true;
+	// 	}
+	// }
 }
 
 function removeTag(tagName) {
-	// Rework
-	for (let i = 0; i < tagContainer.length; i++) {
-		if (tagName == tagContainer[i].name) {
-			tagContainer.splice(i, 1);
+	tagContainer.forEach((_value, key) => {
+		if (tagName == key) {
+			tagContainer.delete(key);
 			console.log(tagContainer);
 		}
-	}
+	});
 }
 
 function createNewTodo(title, desc, dueDate, priority, tag) {
 	let todo = new todoGenerator(title, desc, dueDate, priority, tag);
-	for (let i = 0; i < tagContainer.length; i++) {
-		if (tag == tagContainer[i].name) {
-			tagContainer[i].push(todo);
+	tagContainer.forEach((_value, key) => {
+		if (tag == key) {
+			tagContainer.get(key).push(todo);
 			console.log(tagContainer);
 		}
-	}
+	});
 }
 
 export {
