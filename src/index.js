@@ -25,7 +25,7 @@ class todoGenerator {
 }
 
 function createNewTag(field) {
-	tagContainer.set(`${field}`, new Array());
+	tagContainer.set(`${field}`, []);
 }
 
 function removeTag(tagName) {
