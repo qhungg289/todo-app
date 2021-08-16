@@ -1,5 +1,9 @@
-# todo-app
+# Todo
 
-[Live preview](https://qtodo.netlify.app/)
+This was made for learning purpose at **The Odin Project**.
 
-![Screenshot](https://i.imgur.com/4z8bCgO.png)
+[**Live demo**](https://qtodo.netlify.app/).
+
+**Preview**:
+
+![Screenshot](./asset/readme-todo.png)
